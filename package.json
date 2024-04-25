@@ -54,5 +54,8 @@
     "*.{json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@backstage/plugin-home": "^0.7.3"
   }
 }

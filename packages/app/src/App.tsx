@@ -41,7 +41,7 @@ import { myTheme } from './theme/myTheme';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import AlarmIcon from '@material-ui/icons/Alarm';
 import { HomePage } from './components/home/HomePage';
-import { HomepageCompositionRoot } from '@backstage/plugin-home';
+import { HomepageCompositionRoot } from '@backstage/plugin-home'; // 👈 install with yarn
 import { ExampleIcon } from './assets/icons/CustomIcons';
 
 const app = createApp({
