@@ -1,3 +1,7 @@
+# FALTA:
+#  - BBDD
+#  - Inicio de sesión con github
+
 app:
   title: Scaffolded Backstage App
   baseUrl: http://localhost:3000
