@@ -11,6 +11,8 @@ import {
   CatalogEntityPage,
   CatalogIndexPage,
   catalogPlugin,
+  CatalogTable,
+  CatalogTableColumnsFunc,
 } from '@backstage/plugin-catalog';
 import {
   AlertDisplay,
@@ -23,7 +25,7 @@ import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import { TechRadarPage } from '@backstage/plugin-tech-radar';
+import { TechRadarPage } from '@backstage-community/plugin-tech-radar';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { UserSettingsPage } from '@backstage/plugin-user-settings';
@@ -43,6 +45,17 @@ import AlarmIcon from '@material-ui/icons/Alarm';
 import { HomePage } from './components/home/HomePage';
 import { HomepageCompositionRoot } from '@backstage/plugin-home'; // 👈 install with yarn
 import { ExampleIcon } from './assets/icons/CustomIcons';
+
+const columna: CatalogTableColumnsFunc = entityListContext => {
+  if (entityListContext.filters.kind?.value === 'MyKind') {
+    return [
+      CatalogTable.columns.createNameColumn(),
+      CatalogTable.columns.createOwnerColumn(),
+    ];
+  }
+
+  return CatalogTable.defaultColumnsFunc(entityListContext);
+};
 
 const app = createApp({
   apis,
@@ -89,7 +102,19 @@ const routes = (
       <HomePage />
     </Route>
     <Route path="/" element={<Navigate to="catalog" />} />
-    <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route
+      path="/catalog"
+      element={
+        <CatalogIndexPage
+          pagination
+          initiallySelectedFilter="all"
+          initialKind="domain"
+          ownerPickerMode="all"
+          tableOptions={{ search: false }}
+          columns={columna}
+        />
+      }
+    />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
